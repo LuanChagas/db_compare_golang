@@ -35,7 +35,9 @@ func main() {
 	}
 
 	dadosPreparado1 := compare.PrepararDadosMysql(conn1, configuracaoBd1)
+
 	dadosPreparado2 := compare.PrepararDadosMysql(conn2, configuracaoBd2)
+
 	compare.Comparar(dadosPreparado1, dadosPreparado2)
 
 }

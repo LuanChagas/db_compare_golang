@@ -3,7 +3,12 @@ package schemas
 import "database/sql"
 
 type MapTabelas map[string]DadosCompareMysql
+type MapViews map[string]string
 
+type DadosMap struct {
+	Tabelas MapTabelas
+	Views   MapViews
+}
 type DadosCompareMysql struct {
 	Engine    string
 	Collation string
@@ -14,8 +19,8 @@ type DadosCompareMysql struct {
 
 type DadosSchemaTabelaMysql struct {
 	Tabela    string
-	Engine    string
-	Collation string
+	Engine    sql.NullString
+	Collation sql.NullString
 }
 
 type DadosColunasMysql struct {

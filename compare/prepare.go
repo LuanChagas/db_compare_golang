@@ -8,14 +8,18 @@ import (
 	"log"
 )
 
-func PrepararDadosMysql(conn *sql.DB, configuracao config.ConfiguracaoDB) schemas.MapTabelas {
-	mapTabelas := schemas.MapTabelas{}
+func PrepararDadosMysql(conn *sql.DB, configuracao config.ConfiguracaoDB) schemas.DadosMap {
+	mapTabelas := make(schemas.MapTabelas)
+	mapViews := make(schemas.MapViews)
 	agruparDadosTabela(mapTabelas, conn, configuracao)
 	agruparDadosColuna(mapTabelas, conn, configuracao)
 	agruparDadosChaves(mapTabelas, conn, configuracao)
-	agruparDadosViews(mapTabelas, conn, configuracao)
-
-	return mapTabelas
+	agruparDadosViews(mapViews, conn, configuracao)
+	mapDados := schemas.DadosMap{
+		Tabelas: mapTabelas,
+		Views:   mapViews,
+	}
+	return mapDados
 
 }
 
@@ -26,12 +30,13 @@ func agruparDadosTabela(mapTabelas schemas.MapTabelas, conn *sql.DB, configuraca
 	}
 	for _, valor := range dadosTabelas {
 		mapTabelas[valor.Tabela] = schemas.DadosCompareMysql{
-			Engine:    valor.Engine,
-			Collation: valor.Collation,
+			Engine:    valor.Engine.String,
+			Collation: valor.Collation.String,
 			Colunas:   make(map[string]schemas.DadosColunasMysql),
 			Chaves:    make(map[string]schemas.DadosChavesMysql),
 			Views:     make(map[string]schemas.DadosViewMysql),
 		}
+
 	}
 }
 
@@ -61,15 +66,12 @@ func agruparDadosChaves(mapTabelas schemas.MapTabelas, conn *sql.DB, configuraca
 	}
 }
 
-func agruparDadosViews(mapTabelas schemas.MapTabelas, conn *sql.DB, configuracao config.ConfiguracaoDB) {
+func agruparDadosViews(mapViews schemas.MapViews, conn *sql.DB, configuracao config.ConfiguracaoDB) {
 	dadosViews, err := databases.BuscarViews(conn, configuracao.Banco)
 	if err != nil {
 		log.Fatal(err)
 	}
 	for _, valor := range dadosViews {
-		if tabelaExiste, ok := mapTabelas[valor.Tabela]; ok {
-			tabelaExiste.Views[valor.View] = valor
-			mapTabelas[valor.Tabela] = tabelaExiste
-		}
+		mapViews[valor.Tabela] = valor.View
 	}
 }

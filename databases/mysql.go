@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"dbcompare/config"
 	"dbcompare/schemas"
+	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -34,12 +35,14 @@ func BuscarTabelas(conn *sql.DB, configuracao config.ConfiguracaoDB) ([]schemas.
 	for rows.Next() {
 		queryDados := schemas.DadosSchemaTabelaMysql{}
 		if err := rows.Scan(&queryDados.Tabela, &queryDados.Engine, &queryDados.Collation); err != nil {
+
 			return nil, err
 		}
 		dados = append(dados, queryDados)
 	}
 
 	if err := rows.Err(); err != nil {
+		fmt.Println("ola")
 		return nil, err
 	}
 	return dados, nil
