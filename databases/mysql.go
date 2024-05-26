@@ -10,9 +10,8 @@ import (
 )
 
 func ConectarMysql(configuracao config.ConfiguracaoDB) (*sql.DB, error) {
-	stringConexao := configuracao.StringConexaoMysql()
 
-	db, err := sql.Open("mysql", stringConexao)
+	db, err := sql.Open("mysql", configuracao.StringConexao)
 	if err != nil {
 		return nil, err
 	}
@@ -24,8 +23,8 @@ func ConectarMysql(configuracao config.ConfiguracaoDB) (*sql.DB, error) {
 	return db, nil
 }
 
-func BuscarTabelas(conn *sql.DB, configuracao config.ConfiguracaoDB) ([]schemas.DadosSchemaTabelaMysql, error) {
-	rows, err := conn.Query("select table_name,engine, table_collation from information_schema.tables where table_schema = ?", configuracao.Banco)
+func BuscarTabelas(conn *sql.DB, banco string) ([]schemas.DadosSchemaTabelaMysql, error) {
+	rows, err := conn.Query("select table_name,engine, table_collation from information_schema.tables where table_schema = ?", banco)
 	if err != nil {
 		return nil, err
 	}

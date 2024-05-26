@@ -2,6 +2,7 @@ package compare
 
 import (
 	"dbcompare/schemas"
+	"dbcompare/stats"
 	"fmt"
 )
 
@@ -36,14 +37,17 @@ type CompareCampos struct {
 	Secundario     string
 }
 
-func Comparar(primario schemas.DadosMap, secundario schemas.DadosMap) (ResultadoGeral, error) {
-
+func Comparar(primario schemas.DadosMap, secundario schemas.DadosMap, tempoDecorrido *string) (ResultadoGeral, error) {
+	var contagem stats.Contagem
+	contagem.IniciarContagem()
 	if primario.Tabelas == nil || secundario.Tabelas == nil {
-		return ResultadoGeral{}, fmt.Errorf("Dados primarios ou secundarios estão vazios")
+		return ResultadoGeral{}, fmt.Errorf("dados primarios ou secundarios estão vazios")
 	}
 	resultadoTabelas := compareTabelas(primario.Tabelas, secundario.Tabelas)
 	resultadoCamposTabelas := compareLoop(primario.Tabelas, secundario.Tabelas)
 	resultadoCamposTabelasSecundaria := compareLoop(secundario.Tabelas, primario.Tabelas)
+
+	*tempoDecorrido = contagem.TempoDecorrido()
 
 	return ResultadoGeral{
 		Tabelas:         resultadoTabelas,
