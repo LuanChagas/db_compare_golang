@@ -4,40 +4,53 @@ import (
 	"dbcompare/compare"
 	"dbcompare/config"
 	"dbcompare/databases"
+	"dbcompare/output"
 	"log"
 )
 
 func main() {
-	configuracaoBd1 := config.ConfiguracaoDB{
+	configuracaoBdPrimaria := config.ConfiguracaoDB{
 		Host:    "localhost",
 		Porta:   "3306",
 		Usuario: "root",
 		Senha:   "123456",
 		Banco:   "dbcompare_mysql1",
 	}
-	configuracaoBd2 := config.ConfiguracaoDB{
+	configuracaoBdSecundaria := config.ConfiguracaoDB{
 		Host:    "localhost",
 		Porta:   "3306",
 		Usuario: "root",
 		Senha:   "123456",
 		Banco:   "dbcompare_mysql2",
 	}
-	conn1, err := databases.ConectarMysql(configuracaoBd1)
+	connPrimaria, err := databases.ConectarMysql(configuracaoBdPrimaria)
 
 	if err != nil {
-		log.Fatalf("Erro:%v", err)
+		log.Panic(err)
 	}
 
-	conn2, err := databases.ConectarMysql(configuracaoBd2)
+	connSecundaria, err := databases.ConectarMysql(configuracaoBdSecundaria)
 
 	if err != nil {
-		log.Fatalf("Erro:%v", err)
+		log.Panic(err)
 	}
 
-	dadosPreparado1 := compare.PrepararDadosMysql(conn1, configuracaoBd1)
+	dadosPreparadoPrimario, err := compare.PrepararDadosMysql(connPrimaria, configuracaoBdPrimaria)
 
-	dadosPreparado2 := compare.PrepararDadosMysql(conn2, configuracaoBd2)
+	if err != nil {
+		log.Panic(err)
+	}
 
-	compare.Comparar(dadosPreparado1, dadosPreparado2)
+	dadosPreparadoSecundario, err := compare.PrepararDadosMysql(connSecundaria, configuracaoBdSecundaria)
+
+	if err != nil {
+		log.Panic(err)
+	}
+
+	resultado, err := compare.Comparar(dadosPreparadoPrimario, dadosPreparadoSecundario)
+	if err != nil {
+		log.Panic(err)
+	}
+	output.GerarHtml(resultado)
 
 }

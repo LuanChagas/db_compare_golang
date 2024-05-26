@@ -8,22 +8,24 @@ import (
 	"log"
 )
 
-func PrepararDadosMysql(conn *sql.DB, configuracao config.ConfiguracaoDB) schemas.DadosMap {
+func PrepararDadosMysql(conn *sql.DB, configuracao config.ConfiguracaoDB) (schemas.DadosMap, error) {
 	mapTabelas := make(schemas.MapTabelas)
-	mapViews := make(schemas.MapViews)
-	agruparDadosTabela(mapTabelas, conn, configuracao)
-	agruparDadosColuna(mapTabelas, conn, configuracao)
-	agruparDadosChaves(mapTabelas, conn, configuracao)
-	agruparDadosViews(mapViews, conn, configuracao)
+	if err := agruparDadosTabela(mapTabelas, conn, configuracao); err != nil {
+		return schemas.DadosMap{}, err
+	}
+	if err := agruparDadosColuna(mapTabelas, conn, configuracao); err != nil {
+		return schemas.DadosMap{}, err
+	}
+	if err := agruparDadosChaves(mapTabelas, conn, configuracao); err != nil {
+		return schemas.DadosMap{}, err
+	}
 	mapDados := schemas.DadosMap{
 		Tabelas: mapTabelas,
-		Views:   mapViews,
 	}
-	return mapDados
-
+	return mapDados, nil
 }
 
-func agruparDadosTabela(mapTabelas schemas.MapTabelas, conn *sql.DB, configuracao config.ConfiguracaoDB) {
+func agruparDadosTabela(mapTabelas schemas.MapTabelas, conn *sql.DB, configuracao config.ConfiguracaoDB) error {
 	dadosTabelas, err := databases.BuscarTabelas(conn, configuracao)
 	if err != nil {
 		log.Fatal(err)
@@ -34,13 +36,13 @@ func agruparDadosTabela(mapTabelas schemas.MapTabelas, conn *sql.DB, configuraca
 			Collation: valor.Collation.String,
 			Colunas:   make(map[string]schemas.DadosColunasMysql),
 			Chaves:    make(map[string]schemas.DadosChavesMysql),
-			Views:     make(map[string]schemas.DadosViewMysql),
 		}
 
 	}
+	return nil
 }
 
-func agruparDadosColuna(mapTabelas schemas.MapTabelas, conn *sql.DB, configuracao config.ConfiguracaoDB) {
+func agruparDadosColuna(mapTabelas schemas.MapTabelas, conn *sql.DB, configuracao config.ConfiguracaoDB) error {
 	dadosColunas, err := databases.BuscarColunas(conn, configuracao.Banco)
 	if err != nil {
 		log.Fatal(err)
@@ -51,9 +53,10 @@ func agruparDadosColuna(mapTabelas schemas.MapTabelas, conn *sql.DB, configuraca
 			mapTabelas[valor.Tabela] = tabelaExiste
 		}
 	}
+	return nil
 }
 
-func agruparDadosChaves(mapTabelas schemas.MapTabelas, conn *sql.DB, configuracao config.ConfiguracaoDB) {
+func agruparDadosChaves(mapTabelas schemas.MapTabelas, conn *sql.DB, configuracao config.ConfiguracaoDB) error {
 	dadosChaves, err := databases.BuscarChaves(conn, configuracao.Banco)
 	if err != nil {
 		log.Fatal(err)
@@ -64,14 +67,5 @@ func agruparDadosChaves(mapTabelas schemas.MapTabelas, conn *sql.DB, configuraca
 			mapTabelas[valor.Tabela] = tabelaExiste
 		}
 	}
-}
-
-func agruparDadosViews(mapViews schemas.MapViews, conn *sql.DB, configuracao config.ConfiguracaoDB) {
-	dadosViews, err := databases.BuscarViews(conn, configuracao.Banco)
-	if err != nil {
-		log.Fatal(err)
-	}
-	for _, valor := range dadosViews {
-		mapViews[valor.Tabela] = valor.View
-	}
+	return nil
 }

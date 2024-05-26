@@ -7,14 +7,12 @@ type MapViews map[string]string
 
 type DadosMap struct {
 	Tabelas MapTabelas
-	Views   MapViews
 }
 type DadosCompareMysql struct {
 	Engine    string
 	Collation string
 	Colunas   map[string]DadosColunasMysql
 	Chaves    map[string]DadosChavesMysql
-	Views     map[string]DadosViewMysql
 }
 
 type DadosSchemaTabelaMysql struct {
@@ -39,9 +37,4 @@ type DadosChavesMysql struct {
 	Campo      string
 	Tipo       string
 	Referencia sql.NullString
-}
-
-type DadosViewMysql struct {
-	Tabela string
-	View   string
 }

@@ -5,167 +5,184 @@ import (
 	"fmt"
 )
 
+type ResultadoGeral struct {
+	Tabelas         ResultadoCompareTabela
+	BancoPrimario   []ResultadoCompareCamposTabela
+	BancoSecundario []ResultadoCompareCamposTabela
+}
+
 type ResultadoCompareTabela struct {
+	Tabela map[string]ExisteTabela
+}
+
+type ExisteTabela struct {
+	Primario   bool `json:"primario"`
+	Secundario bool `json:"secundario"`
+}
+
+type ResultadoCompareCamposTabela struct {
 	Tabela       string
 	Diferenca    bool
 	TabelaExiste bool
 	DadosSchema  []CompareCampos
 	Colunas      []CompareCampos
 	Chaves       []CompareCampos
-	Views        []CompareCampos
-}
-
-type ResultadoCompareViews struct {
-	Tabela      string
-	IsDiferenca bool
-	View        string
-	Diferenca   string
 }
 
 type CompareCampos struct {
-	Nome      string
-	Original  string
-	Diferenca string
+	Nome           string
+	TipoComparacao string
+	Primario       string
+	Secundario     string
 }
 
-func Comparar(dados1 schemas.DadosMap, dados2 schemas.DadosMap) {
-	resultadoTabelas := compareLoop(dados1.Tabelas, dados2.Tabelas)
-	resultadoViews := compareViews(dados1.Views, dados2.Views)
-	fmt.Printf("%v", resultadoTabelas)
-	fmt.Printf("%v", resultadoViews)
+func Comparar(primario schemas.DadosMap, secundario schemas.DadosMap) (ResultadoGeral, error) {
+
+	if primario.Tabelas == nil || secundario.Tabelas == nil {
+		return ResultadoGeral{}, fmt.Errorf("Dados primarios ou secundarios estão vazios")
+	}
+	resultadoTabelas := compareTabelas(primario.Tabelas, secundario.Tabelas)
+	resultadoCamposTabelas := compareLoop(primario.Tabelas, secundario.Tabelas)
+	resultadoCamposTabelasSecundaria := compareLoop(secundario.Tabelas, primario.Tabelas)
+
+	return ResultadoGeral{
+		Tabelas:         resultadoTabelas,
+		BancoPrimario:   resultadoCamposTabelas,
+		BancoSecundario: resultadoCamposTabelasSecundaria,
+	}, nil
 }
 
-func compareLoop(dados1 schemas.MapTabelas, dados2 schemas.MapTabelas) []ResultadoCompareTabela {
-	var resultado []ResultadoCompareTabela
-	var resultadoTemp ResultadoCompareTabela
-	for tabela, campo := range dados1 {
-		resultadoTemp = ResultadoCompareTabela{Tabela: tabela}
-		if _, ok := dados2[tabela]; !ok {
+func compareTabelas(primario schemas.MapTabelas, secundario schemas.MapTabelas) ResultadoCompareTabela {
+	resultadoCompareTabela := ResultadoCompareTabela{
+		Tabela: make(map[string]ExisteTabela),
+	}
+	existeTabelas(primario, resultadoCompareTabela, "primario")
+	existeTabelas(secundario, resultadoCompareTabela, "secundario")
+	return resultadoCompareTabela
+}
+
+func existeTabelas(dados schemas.MapTabelas, mapTabelas ResultadoCompareTabela, banco string) {
+
+	for tabela := range dados {
+		if _, ok := mapTabelas.Tabela[tabela]; !ok {
+			mapTabelas.Tabela[tabela] = ExisteTabela{}
+		}
+		mapTabela := mapTabelas.Tabela[tabela]
+		if banco == "primario" {
+			mapTabela.Primario = true
+		} else {
+			mapTabela.Secundario = true
+		}
+		mapTabelas.Tabela[tabela] = mapTabela
+	}
+}
+
+func compareLoop(primario schemas.MapTabelas, secundario schemas.MapTabelas) []ResultadoCompareCamposTabela {
+	var resultado []ResultadoCompareCamposTabela
+	var resultadoTemp ResultadoCompareCamposTabela
+	for tabela, campo := range primario {
+		resultadoTemp = ResultadoCompareCamposTabela{Tabela: tabela}
+		if _, ok := secundario[tabela]; !ok {
 			resultadoTemp.Diferenca = true
 			resultadoTemp.TabelaExiste = false
 			resultado = append(resultado, resultadoTemp)
 			continue
 		}
 		resultadoTemp.TabelaExiste = true
-		resultadoTemp.DadosSchema, resultadoTemp.Diferenca = compareDadosTabela(campo, dados2, tabela)
-		resultadoTemp.Colunas = compareColunas(campo.Colunas, dados2, tabela, &resultadoTemp.Diferenca)
-		resultadoTemp.Colunas = compareChaves(campo.Chaves, dados2, tabela, &resultadoTemp.Diferenca)
+		resultadoTemp.DadosSchema, resultadoTemp.Diferenca = compareDadosTabela(campo, secundario[tabela])
+		resultadoTemp.Colunas = compareColunas(campo.Colunas, secundario[tabela].Colunas, &resultadoTemp.Diferenca)
+		resultadoTemp.Chaves = compareChaves(campo.Chaves, secundario[tabela].Chaves, &resultadoTemp.Diferenca)
 		resultado = append(resultado, resultadoTemp)
 	}
+
 	return resultado
 }
 
-func compareDadosTabela(campo schemas.DadosCompareMysql, dados2 schemas.MapTabelas, tabela string) ([]CompareCampos, bool) {
+func compareDadosTabela(campoPrimario, campoSecundario schemas.DadosCompareMysql) ([]CompareCampos, bool) {
 	compareCamposTemp := []CompareCampos{}
 	diferenca := false
 
-	if campo.Collation != dados2[tabela].Collation {
-		diferenca = true
-		compareCamposTemp = append(compareCamposTemp, CompareCampos{
-			Nome:      "Collation",
-			Original:  campo.Collation,
-			Diferenca: dados2[tabela].Collation,
-		})
+	comparacaoDeCampos := func(nome, original, diferente string) {
+		if original != diferente {
+			diferenca = true
+			compareCamposTemp = append(compareCamposTemp, CompareCampos{
+				Nome:       nome,
+				Primario:   original,
+				Secundario: diferente,
+			})
+		}
 	}
-	if campo.Engine != dados2[tabela].Engine {
-		diferenca = true
-		compareCamposTemp = append(compareCamposTemp, CompareCampos{
-			Nome:      "Engine",
-			Original:  campo.Engine,
-			Diferenca: dados2[tabela].Engine,
-		})
-	}
+	comparacaoDeCampos("Collation", campoPrimario.Collation, campoSecundario.Collation)
+	comparacaoDeCampos("Engine", campoPrimario.Engine, campoSecundario.Engine)
 
 	return compareCamposTemp, diferenca
 }
 
-func compareColunas(campos map[string]schemas.DadosColunasMysql, dados2 schemas.MapTabelas, tabela string, diferenca *bool) []CompareCampos {
+func compareColunas(camposPrimario, secundario map[string]schemas.DadosColunasMysql, diferenca *bool) []CompareCampos {
 	var compareCamposTemp []CompareCampos
-	comparacaoDeCampos := func(nome, original, diferente string) {
+	comparacaoDeCampos := func(nome, original, diferente, campoPrimario string) {
 		if original != diferente {
 			*diferenca = true
 			compareCamposTemp = append(compareCamposTemp, CompareCampos{
-				Nome:      nome,
-				Original:  original,
-				Diferenca: diferente,
+				Nome:           campoPrimario,
+				TipoComparacao: nome,
+				Primario:       original,
+				Secundario:     diferente,
 			})
 		}
 	}
-	for campo, coluna := range campos {
-		if _, ok := dados2[tabela].Colunas[campo]; !ok {
+	for campoPrimario, coluna := range camposPrimario {
+		if _, ok := secundario[campoPrimario]; !ok {
 			*diferenca = true
 			compareCamposTemp = append(compareCamposTemp, CompareCampos{
-				Nome:      "Campo",
-				Original:  campo,
-				Diferenca: "Não existe",
+				Nome:           campoPrimario,
+				TipoComparacao: "Campo",
+				Primario:       campoPrimario,
+				Secundario:     "Não existe",
 			})
 			continue
 		}
 
-		coluna2 := dados2[tabela].Colunas[campo]
-		comparacaoDeCampos("Caracteres", coluna.Caracteres.String, coluna2.Caracteres.String)
-		comparacaoDeCampos("Default", coluna.ValorDefault.String, coluna2.ValorDefault.String)
-		comparacaoDeCampos("Nulo", coluna.Nulo, coluna2.Nulo)
-		comparacaoDeCampos("Tipo do Campo", coluna.TipoCampo, coluna2.TipoCampo)
-		comparacaoDeCampos("Collation", coluna.Collation.String, coluna2.Collation.String)
-		comparacaoDeCampos("Extra", coluna.Extra.String, coluna2.Extra.String)
+		coluna2 := secundario[campoPrimario]
+		comparacaoDeCampos("Caracteres", coluna.Caracteres.String, coluna2.Caracteres.String, campoPrimario)
+		comparacaoDeCampos("Default", coluna.ValorDefault.String, coluna2.ValorDefault.String, campoPrimario)
+		comparacaoDeCampos("Nulo", coluna.Nulo, coluna2.Nulo, campoPrimario)
+		comparacaoDeCampos("Tipo do Campo", coluna.TipoCampo, coluna2.TipoCampo, campoPrimario)
+		comparacaoDeCampos("Collation", coluna.Collation.String, coluna2.Collation.String, campoPrimario)
+		comparacaoDeCampos("Extra", coluna.Extra.String, coluna2.Extra.String, campoPrimario)
 
 	}
 	return compareCamposTemp
 }
-func compareChaves(campos map[string]schemas.DadosChavesMysql, dados2 schemas.MapTabelas, tabela string, diferenca *bool) []CompareCampos {
+func compareChaves(camposPrimario, secundario map[string]schemas.DadosChavesMysql, diferenca *bool) []CompareCampos {
 	var compareCamposTemp []CompareCampos
-	comparacaoDeCampos := func(nome, original, diferente string) {
+	comparacaoDeCampos := func(nome, original, diferente, campoPrimario string) {
 		if original != diferente {
 			*diferenca = true
 			compareCamposTemp = append(compareCamposTemp, CompareCampos{
-				Nome:      nome,
-				Original:  original,
-				Diferenca: diferente,
+				Nome:           campoPrimario,
+				TipoComparacao: nome,
+				Primario:       original,
+				Secundario:     diferente,
 			})
 		}
 	}
-	for campo, chave := range campos {
-		if _, ok := dados2[tabela].Chaves[campo]; !ok {
+	for campoPrimario, chave := range camposPrimario {
+		if _, ok := secundario[campoPrimario]; !ok {
 			*diferenca = true
 			compareCamposTemp = append(compareCamposTemp, CompareCampos{
-				Nome:      "Campo",
-				Original:  campo,
-				Diferenca: "Não existe",
+				Nome:           campoPrimario,
+				TipoComparacao: "Chave",
+				Primario:       campoPrimario,
+				Secundario:     "Não existe",
 			})
 			continue
 		}
 
-		coluna2 := dados2[tabela].Chaves[campo]
-		comparacaoDeCampos("Tipo", chave.Tipo, coluna2.Tipo)
-		comparacaoDeCampos("Referencia", chave.Referencia.String, coluna2.Referencia.String)
+		colunaSecundaria := secundario[campoPrimario]
+		comparacaoDeCampos("Tipo", chave.Tipo, colunaSecundaria.Tipo, campoPrimario)
+		comparacaoDeCampos("Referencia", chave.Referencia.String, colunaSecundaria.Referencia.String, campoPrimario)
 
 	}
 	return compareCamposTemp
-}
-
-func compareViews(views schemas.MapViews, dados2 schemas.MapViews) []ResultadoCompareViews {
-	var resultado []ResultadoCompareViews
-	for tabela, view := range views {
-		if _, ok := dados2[tabela]; !ok {
-			resultado = append(resultado, ResultadoCompareViews{
-				Tabela:      tabela,
-				IsDiferenca: true,
-				View:        view,
-				Diferenca:   "Não existe",
-			})
-			continue
-		}
-
-		if view != dados2[tabela] {
-			resultado = append(resultado, ResultadoCompareViews{
-				Tabela:      tabela,
-				IsDiferenca: true,
-				View:        view,
-				Diferenca:   dados2[tabela],
-			})
-		}
-
-	}
-	return resultado
 }

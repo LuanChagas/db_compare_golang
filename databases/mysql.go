@@ -17,12 +17,11 @@ func ConectarMysql(configuracao config.ConfiguracaoDB) (*sql.DB, error) {
 		return nil, err
 	}
 
-	if db.Ping() != nil {
+	if err := db.Ping(); err != nil {
 		db.Close()
 		return nil, err
 	}
 	return db, nil
-
 }
 
 func BuscarTabelas(conn *sql.DB, configuracao config.ConfiguracaoDB) ([]schemas.DadosSchemaTabelaMysql, error) {
@@ -95,33 +94,6 @@ func BuscarChaves(conn *sql.DB, banco string) ([]schemas.DadosChavesMysql, error
 
 		if err := rows.Scan(
 			&queryDados.Tabela, &queryDados.Campo, &queryDados.Tipo, &queryDados.Referencia); err != nil {
-			return nil, err
-		}
-		dados = append(dados, queryDados)
-	}
-
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-
-	return dados, nil
-}
-
-func BuscarViews(conn *sql.DB, banco string) ([]schemas.DadosViewMysql, error) {
-	rows, err := conn.Query(`
-	SELECT  table_name, view_definition
-	from information_schema.VIEWS where table_schema = ?`, banco)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	dados := []schemas.DadosViewMysql{}
-
-	for rows.Next() {
-		queryDados := schemas.DadosViewMysql{}
-
-		if err := rows.Scan(
-			&queryDados.Tabela, &queryDados.View); err != nil {
 			return nil, err
 		}
 		dados = append(dados, queryDados)
