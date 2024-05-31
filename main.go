@@ -12,7 +12,7 @@ import (
 	"github.com/fatih/color"
 )
 
-const version = "0.1"
+const version = "0.2"
 
 var dadosStats stats.Stats
 var contagem stats.Contagem
@@ -28,10 +28,12 @@ func main() {
 
 	dadosBdPrimario := config.ConfiguracaoDB{
 		StringConexao: dadosInput.ConnPrimaria,
+		TipoBanco:     dadosInput.TipoBanco,
 	}
 
 	dadosBdSecundario := config.ConfiguracaoDB{
 		StringConexao: dadosInput.ConnSecundaria,
+		TipoBanco:     dadosInput.TipoBanco,
 	}
 
 	color.Blue("Configurando da conexão do banco Primário ...")
@@ -49,7 +51,7 @@ func main() {
 	color.Green("Configuração da conexão do banco Secundário    ✓")
 
 	color.Blue("Conectando banco Primário ...")
-	connPrimaria, err := databases.ConectarMysql(dadosBdPrimario)
+	connPrimaria, err := databases.Conectar(dadosBdPrimario)
 	if err != nil {
 		color.Red("✗ Erro ao conectar a conexão primária: %v", err)
 		os.Exit(1)
@@ -58,16 +60,15 @@ func main() {
 	defer connPrimaria.Close()
 
 	color.Blue("Conectando banco Secundário ...")
-	connSecundaria, err := databases.ConectarMysql(dadosBdSecundario)
+	connSecundaria, err := databases.Conectar(dadosBdSecundario)
 	if err != nil {
 		color.Red("✗ Erro ao conectar a conexão secundaria: %v", err)
 		os.Exit(1)
 	}
 	color.Green("Conexão do banco Secundário    ✓")
 	defer connSecundaria.Close()
-
 	color.Blue("Buscando dados do banco Primário ...")
-	dadosPreparadoPrimario, err := compare.PrepararDadosMysql(connPrimaria, dadosBdPrimario.Banco, &dadosStats.TempoProcessamentoDadosPrimarios)
+	dadosPreparadoPrimario, err := compare.PrepararDadosMysql(connPrimaria, dadosBdPrimario, &dadosStats.TempoProcessamentoDadosPrimarios)
 	if err != nil {
 		color.Red("✗ Erro ao preparar dados primários: %v", err)
 		os.Exit(1)
@@ -75,7 +76,7 @@ func main() {
 	color.Green("Dados do banco Primário buscados    ✓")
 
 	color.Blue("Buscando dados do banco Secundário ...")
-	dadosPreparadoSecundario, err := compare.PrepararDadosMysql(connSecundaria, dadosBdSecundario.Banco, &dadosStats.TempoProcessamentoDadosSecundarios)
+	dadosPreparadoSecundario, err := compare.PrepararDadosMysql(connSecundaria, dadosBdSecundario, &dadosStats.TempoProcessamentoDadosSecundarios)
 	if err != nil {
 		color.Red("✗ Erro ao preparar dados secundários: %v", err)
 		os.Exit(1)
@@ -91,7 +92,7 @@ func main() {
 	color.Green("Comparação realizada    ✓")
 
 	color.Blue("Gerando Stats  ...")
-	dadosStats.TempoGeral = contagem.TempoDecorrido()
+
 	dadosStats.TamanhoDadosPrimarios, err = stats.CalcularTamanho(dadosPreparadoPrimario)
 	if err != nil {
 		color.Red("✗ Erro ao criar stats dos dados Primários: %v", err.Error())
@@ -103,7 +104,7 @@ func main() {
 		os.Exit(1)
 	}
 	color.Green("Stats gerado    ✓")
-
+	dadosStats.TempoGeral = contagem.TempoDecorrido()
 	dadosOutPut := output.DadosOutput{
 		Resultado:       resultado,
 		BancoPrimario:   dadosBdPrimario.Banco,

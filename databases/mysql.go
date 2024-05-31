@@ -2,29 +2,17 @@ package databases
 
 import (
 	"database/sql"
-	"dbcompare/config"
 	"dbcompare/schemas"
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
 )
 
-func ConectarMysql(configuracao config.ConfiguracaoDB) (*sql.DB, error) {
+func BuscarTabelasMysql(conn *sql.DB, banco string) ([]schemas.DadosSchemaTabelaMysql, error) {
 
-	db, err := sql.Open("mysql", configuracao.StringConexao)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := db.Ping(); err != nil {
-		db.Close()
-		return nil, err
-	}
-	return db, nil
-}
-
-func BuscarTabelas(conn *sql.DB, banco string) ([]schemas.DadosSchemaTabelaMysql, error) {
 	rows, err := conn.Query("select table_name,engine, table_collation from information_schema.tables where table_schema = ?", banco)
+
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +34,7 @@ func BuscarTabelas(conn *sql.DB, banco string) ([]schemas.DadosSchemaTabelaMysql
 	return dados, nil
 }
 
-func BuscarColunas(conn *sql.DB, banco string) ([]schemas.DadosColunasMysql, error) {
+func BuscarColunasMysql(conn *sql.DB, banco string) ([]schemas.DadosColunasMysql, error) {
 	rows, err := conn.Query(`
 	select 
 	table_name, column_name, column_default,is_nullable,
@@ -77,7 +65,7 @@ func BuscarColunas(conn *sql.DB, banco string) ([]schemas.DadosColunasMysql, err
 
 }
 
-func BuscarChaves(conn *sql.DB, banco string) ([]schemas.DadosChavesMysql, error) {
+func BuscarChavesMysql(conn *sql.DB, banco string) ([]schemas.DadosChavesMysql, error) {
 	rows, err := conn.Query(`
 	select 
 	table_name, column_name, constraint_name,referenced_table_name

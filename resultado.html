@@ -31,12 +31,12 @@
 		<section class="w-full flex flex-col items-center p-7 border">
 		<div class="w-1/2 border  p-6 rounded-lg flex flex-col">
 			<h1 class="text-xl font-bold">Stats</h1>
-			<span>Tempo Geral: 16 ms</span>
-			<span>Tempo processamento de dados Primários: 5 ms </span>
-			<span>Tempo processamento de dados secundario: 5 ms </span>
+			<span>Tempo Geral: 36 ms</span>
+			<span>Tempo processamento de dados Primários: 14 ms </span>
+			<span>Tempo processamento de dados secundario: 11 ms </span>
 			<span>Tempo Comparação: 0 ms </span>
-			<span>Tamanho de dados Primarios: 8.00 KB </span>
-			<span>Tamanho de dados Secundários: 7.00 KB </span>
+			<span>Tamanho de dados Primarios: 18.00 KB </span>
+			<span>Tamanho de dados Secundários: 15.00 KB </span>
 		</div>
 	   
 	   
@@ -53,8 +53,8 @@
 							<thead>
 								<tr class="">
 									<th class="py-2 px-4 rounded-md"></th>
-									<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql1</th>
-									<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql2</th>
+									<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+									<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -63,6 +63,16 @@
 
 
 
+								
+								<tr>
+									<td class="border px-4 py-2 rounded-md ">assistencia_tecnica</td>
+									<td class="border px-4 py-2 text-center rounded-md 
+									bg-green-200
+									">Sim</td>
+									<td class="border px-4 py-2 text-center rounded-md
+									bg-green-200 
+									">Sim</td>
+								</tr>
 								
 								<tr>
 									<td class="border px-4 py-2 rounded-md ">categories</td>
@@ -75,10 +85,50 @@
 								</tr>
 								
 								<tr>
-									<td class="border px-4 py-2 rounded-md ">feedback</td>
+									<td class="border px-4 py-2 rounded-md ">departamentos</td>
 									<td class="border px-4 py-2 text-center rounded-md 
+									bg-green-200
+									">Sim</td>
+									<td class="border px-4 py-2 text-center rounded-md
 									bg-red-200
 									">Não</td>
+								</tr>
+								
+								<tr>
+									<td class="border px-4 py-2 rounded-md ">emails</td>
+									<td class="border px-4 py-2 text-center rounded-md 
+									bg-green-200
+									">Sim</td>
+									<td class="border px-4 py-2 text-center rounded-md
+									bg-green-200 
+									">Sim</td>
+								</tr>
+								
+								<tr>
+									<td class="border px-4 py-2 rounded-md ">enderecos</td>
+									<td class="border px-4 py-2 text-center rounded-md 
+									bg-green-200
+									">Sim</td>
+									<td class="border px-4 py-2 text-center rounded-md
+									bg-green-200 
+									">Sim</td>
+								</tr>
+								
+								<tr>
+									<td class="border px-4 py-2 rounded-md ">eventos</td>
+									<td class="border px-4 py-2 text-center rounded-md 
+									bg-green-200
+									">Sim</td>
+									<td class="border px-4 py-2 text-center rounded-md
+									bg-red-200
+									">Não</td>
+								</tr>
+								
+								<tr>
+									<td class="border px-4 py-2 rounded-md ">funcionarios</td>
+									<td class="border px-4 py-2 text-center rounded-md 
+									bg-green-200
+									">Sim</td>
 									<td class="border px-4 py-2 text-center rounded-md
 									bg-green-200 
 									">Sim</td>
@@ -86,6 +136,16 @@
 								
 								<tr>
 									<td class="border px-4 py-2 rounded-md ">orders</td>
+									<td class="border px-4 py-2 text-center rounded-md 
+									bg-green-200
+									">Sim</td>
+									<td class="border px-4 py-2 text-center rounded-md
+									bg-green-200 
+									">Sim</td>
+								</tr>
+								
+								<tr>
+									<td class="border px-4 py-2 rounded-md ">participacao_projetos</td>
 									<td class="border px-4 py-2 text-center rounded-md 
 									bg-green-200
 									">Sim</td>
@@ -105,7 +165,7 @@
 								</tr>
 								
 								<tr>
-									<td class="border px-4 py-2 rounded-md ">products_in_stock</td>
+									<td class="border px-4 py-2 rounded-md ">projetos</td>
 									<td class="border px-4 py-2 text-center rounded-md 
 									bg-green-200
 									">Sim</td>
@@ -120,8 +180,18 @@
 									bg-green-200
 									">Sim</td>
 									<td class="border px-4 py-2 text-center rounded-md
-									bg-red-200
-									">Não</td>
+									bg-green-200 
+									">Sim</td>
+								</tr>
+								
+								<tr>
+									<td class="border px-4 py-2 rounded-md ">telefones</td>
+									<td class="border px-4 py-2 text-center rounded-md 
+									bg-green-200
+									">Sim</td>
+									<td class="border px-4 py-2 text-center rounded-md
+									bg-green-200 
+									">Sim</td>
 								</tr>
 								
 								<tr>
@@ -148,12 +218,12 @@
 			<section class="w-full flex justify-center">
 				<button id="btnPrimario"
 					class="bg-slate-800 p-4 rounded-md shadow-lg hover:bg-slate-950 ">
-					<span class="text-green-500">dbcompare_mysql1 -></span> <span class="text-white"> Compare </span> <span
-						class="text-red-600">-> dbcompare_mysql2 </span>
+					<span class="text-green-500">db_compare_postgres1 -></span> <span class="text-white"> Compare </span> <span
+						class="text-red-600">-> db_compare_postgres2 </span>
 				</button>
 				<button id="btnSecundario" class="bg-slate-800 p-4 rounded-md shadow-lg hover:bg-slate-950 hidden">
-					<span class="text-green-500">dbcompare_mysql2 -></span> <span class="text-white"> Compare </span> <span
-						class="text-red-600">-> dbcompare_mysql1 </span>
+					<span class="text-green-500">db_compare_postgres2 -></span> <span class="text-white"> Compare </span> <span
+						class="text-red-600">-> db_compare_postgres1 </span>
 				</button>
 			</section>
 			<section id="primario" class="w-full flex flex-col items-center p-7 ">
@@ -165,10 +235,325 @@
 
 				
 					
+
+
+				<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+				<div class=" ml-5 text-xl border-b border-b-slate-400">
+				<h3 class=" text-xl ">emails</h3>
+			</div>
+			<div class="flex justify-center">
+			<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+				
+				<thead>
+					<tr class="">
+						<th class="py-2 px-4 rounded-md"></th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					</tr>
+				</thead>
+				<tbody>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">email</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">email</td>
+						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					</tr>
+
+
+				
+
+				
+				</tbody>
+			</table>
+		</div>
+	</section>
+	
 				
 					
 				
 					
+
+
+				<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+				<div class=" ml-5 text-xl border-b border-b-slate-400">
+				<h3 class=" text-xl ">assistencia_tecnica</h3>
+			</div>
+			<div class="flex justify-center">
+			<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+				
+				<thead>
+					<tr class="">
+						<th class="py-2 px-4 rounded-md"></th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					</tr>
+				</thead>
+				<tbody>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">descricao_problema</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">descricao_problema</td>
+						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					</tr>
+
+
+				
+
+				
+				</tbody>
+			</table>
+		</div>
+	</section>
+	
+				
+					
+
+
+				<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+				<div class=" ml-5 text-xl border-b border-b-slate-400">
+				<h3 class=" text-xl ">enderecos</h3>
+			</div>
+			<div class="flex justify-center">
+			<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+				
+				<thead>
+					<tr class="">
+						<th class="py-2 px-4 rounded-md"></th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					</tr>
+				</thead>
+				<tbody>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">cep</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">cep</td>
+						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					</tr>
+
+
+				
+
+				
+				</tbody>
+			</table>
+		</div>
+	</section>
+	
+				
+					
+				
+					
+
+
+				<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+				<div class=" ml-5 text-xl border-b border-b-slate-400">
+				<h3 class=" text-xl ">orders</h3>
+			</div>
+			<div class="flex justify-center">
+			<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+				
+				<thead>
+					<tr class="">
+						<th class="py-2 px-4 rounded-md"></th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					</tr>
+				</thead>
+				<tbody>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">order_date</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Default</td>
+						<td class="border px-4 py-2 text-center rounded-md  "></td>
+						<td class="border px-4 py-2 text-center rounded-md ">CURRENT_TIMESTAMP</td>
+					</tr>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">order_date</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Nulo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">NO</td>
+						<td class="border px-4 py-2 text-center rounded-md ">YES</td>
+					</tr>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">order_date</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Tipo do Campo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">date</td>
+						<td class="border px-4 py-2 text-center rounded-md ">timestamp without time zone</td>
+					</tr>
+
+
+				
+
+				
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">user_id</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Chave</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">user_id</td>
+						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					</tr>
+				
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">product_id</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Chave</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">product_id</td>
+						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					</tr>
+				
+				</tbody>
+			</table>
+		</div>
+	</section>
+	
+				
+					
+
+
+				<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+				<div class=" ml-5 text-xl border-b border-b-slate-400">
+				<h3 class=" text-xl ">products</h3>
+			</div>
+			<div class="flex justify-center">
+			<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+				
+				<thead>
+					<tr class="">
+						<th class="py-2 px-4 rounded-md"></th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					</tr>
+				</thead>
+				<tbody>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">description</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">description</td>
+						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					</tr>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">created_at</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">created_at</td>
+						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					</tr>
+
+
+				
+
+				
+				</tbody>
+			</table>
+		</div>
+	</section>
+	
+				
+					
+				
+					
+
+
+				<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+				<div class=" ml-5 text-xl border-b border-b-slate-400">
+				<h3 class=" text-xl ">telefones</h3>
+			</div>
+			<div class="flex justify-center">
+			<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+				
+				<thead>
+					<tr class="">
+						<th class="py-2 px-4 rounded-md"></th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					</tr>
+				</thead>
+				<tbody>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">tipo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Default</td>
+						<td class="border px-4 py-2 text-center rounded-md  "></td>
+						<td class="border px-4 py-2 text-center rounded-md ">&#39;residencial&#39;::character varying</td>
+					</tr>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">tipo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Nulo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">NO</td>
+						<td class="border px-4 py-2 text-center rounded-md ">YES</td>
+					</tr>
+
+
+				
+
+
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">numero</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">numero</td>
+						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					</tr>
+
+
+				
+
+				
+				</tbody>
+			</table>
+		</div>
+	</section>
+	
 				
 					
 
@@ -184,8 +569,8 @@
 					<tr class="">
 						<th class="py-2 px-4 rounded-md"></th>
 						<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
-						<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql1</th>
-						<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql2</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -196,41 +581,8 @@
 
 					<tr>
 						<td class="border px-4 py-2 rounded-md ">name</td>
-						<td class="border px-4 py-2 text-center rounded-md  ">Default</td>
-						<td class="border px-4 py-2 text-center rounded-md  ">na</td>
-						<td class="border px-4 py-2 text-center rounded-md "></td>
-					</tr>
-
-
-				
-
-
-					<tr>
-						<td class="border px-4 py-2 rounded-md ">name</td>
-						<td class="border px-4 py-2 text-center rounded-md  ">Nulo</td>
-						<td class="border px-4 py-2 text-center rounded-md  ">YES</td>
-						<td class="border px-4 py-2 text-center rounded-md ">NO</td>
-					</tr>
-
-
-				
-
-
-					<tr>
-						<td class="border px-4 py-2 rounded-md ">name</td>
-						<td class="border px-4 py-2 text-center rounded-md  ">Tipo do Campo</td>
-						<td class="border px-4 py-2 text-center rounded-md  ">varchar(123)</td>
-						<td class="border px-4 py-2 text-center rounded-md ">varchar(50)</td>
-					</tr>
-
-
-				
-
-
-					<tr>
-						<td class="border px-4 py-2 rounded-md ">parent_id</td>
 						<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
-						<td class="border px-4 py-2 text-center rounded-md  ">parent_id</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">name</td>
 						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
 					</tr>
 
@@ -254,11 +606,13 @@
 					
 				
 					
+				
+					
 
 
 				<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
 				<div class=" ml-5 text-xl border-b border-b-slate-400">
-				<h3 class=" text-xl ">products</h3>
+				<h3 class=" text-xl ">users</h3>
 			</div>
 			<div class="flex justify-center">
 			<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
@@ -267,8 +621,8 @@
 					<tr class="">
 						<th class="py-2 px-4 rounded-md"></th>
 						<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
-						<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql1</th>
-						<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql2</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -278,15 +632,59 @@
 
 
 					<tr>
-						<td class="border px-4 py-2 rounded-md ">description</td>
+						<td class="border px-4 py-2 rounded-md ">created_at</td>
 						<td class="border px-4 py-2 text-center rounded-md  ">Tipo do Campo</td>
-						<td class="border px-4 py-2 text-center rounded-md  ">varchar(655)</td>
-						<td class="border px-4 py-2 text-center rounded-md ">text</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">timestamp with time zone</td>
+						<td class="border px-4 py-2 text-center rounded-md ">timestamp without time zone</td>
 					</tr>
 
 
 				
 
+				
+				</tbody>
+			</table>
+		</div>
+	</section>
+	
+				
+					
+
+
+				<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+				<div class=" ml-5 text-xl border-b border-b-slate-400">
+				<h3 class=" text-xl ">reviews</h3>
+			</div>
+			<div class="flex justify-center">
+			<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+				
+				<thead>
+					<tr class="">
+						<th class="py-2 px-4 rounded-md"></th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+						<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					</tr>
+				</thead>
+				<tbody>
+
+
+				
+
+				
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">product_id</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Chave</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">product_id</td>
+						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					</tr>
+				
+					<tr>
+						<td class="border px-4 py-2 rounded-md ">user_id</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">Chave</td>
+						<td class="border px-4 py-2 text-center rounded-md  ">user_id</td>
+						<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					</tr>
 				
 				</tbody>
 			</table>
@@ -309,7 +707,7 @@
 
 			<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
 			<div class=" ml-5 text-xl border-b border-b-slate-400">
-			<h3 class=" text-xl ">users</h3>
+			<h3 class=" text-xl ">emails</h3>
 		</div>
 		<div class="flex justify-center">
 		<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
@@ -318,8 +716,8 @@
 				<tr class="">
 					<th class="py-2 px-4 rounded-md"></th>
 					<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
-					<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql2</th>
-					<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql1</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -327,13 +725,161 @@
 
 			
 
-			
+
 				<tr>
-					<td class="border px-4 py-2 rounded-md ">email</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">Chave</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">email</td>
+					<td class="border px-4 py-2 rounded-md ">email_address</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">email_address</td>
 					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
 				</tr>
+
+
+			
+
+			
+			</tbody>
+		</table>
+	</div>
+</section>
+
+
+
+			
+				
+			
+				
+
+
+			<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+			<div class=" ml-5 text-xl border-b border-b-slate-400">
+			<h3 class=" text-xl ">funcionarios</h3>
+		</div>
+		<div class="flex justify-center">
+		<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+			
+			<thead>
+				<tr class="">
+					<th class="py-2 px-4 rounded-md"></th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+				</tr>
+			</thead>
+			<tbody>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">data_contratacao</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">data_contratacao</td>
+					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+				</tr>
+
+
+			
+
+			
+			</tbody>
+		</table>
+	</div>
+</section>
+
+
+
+			
+				
+
+
+			<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+			<div class=" ml-5 text-xl border-b border-b-slate-400">
+			<h3 class=" text-xl ">participacao_projetos</h3>
+		</div>
+		<div class="flex justify-center">
+		<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+			
+			<thead>
+				<tr class="">
+					<th class="py-2 px-4 rounded-md"></th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+				</tr>
+			</thead>
+			<tbody>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">data_participacao</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">data_participacao</td>
+					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+				</tr>
+
+
+			
+
+			
+			</tbody>
+		</table>
+	</div>
+</section>
+
+
+
+			
+				
+			
+				
+
+
+			<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+			<div class=" ml-5 text-xl border-b border-b-slate-400">
+			<h3 class=" text-xl ">assistencia_tecnica</h3>
+		</div>
+		<div class="flex justify-center">
+		<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+			
+			<thead>
+				<tr class="">
+					<th class="py-2 px-4 rounded-md"></th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+				</tr>
+			</thead>
+			<tbody>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">descricao</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">descricao</td>
+					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+				</tr>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">prioridade</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">prioridade</td>
+					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+				</tr>
+
+
+			
+
 			
 			</tbody>
 		</table>
@@ -357,8 +903,8 @@
 				<tr class="">
 					<th class="py-2 px-4 rounded-md"></th>
 					<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
-					<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql2</th>
-					<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql1</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -368,42 +914,20 @@
 
 
 				<tr>
-					<td class="border px-4 py-2 rounded-md ">name</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">Default</td>
-					<td class="border px-4 py-2 text-center rounded-md  "></td>
-					<td class="border px-4 py-2 text-center rounded-md ">na</td>
-				</tr>
-
-
-			
-
-
-				<tr>
-					<td class="border px-4 py-2 rounded-md ">name</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">Nulo</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">NO</td>
-					<td class="border px-4 py-2 text-center rounded-md ">YES</td>
-				</tr>
-
-
-			
-
-
-				<tr>
-					<td class="border px-4 py-2 rounded-md ">name</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">Tipo do Campo</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">varchar(50)</td>
-					<td class="border px-4 py-2 text-center rounded-md ">varchar(123)</td>
-				</tr>
-
-
-			
-
-
-				<tr>
-					<td class="border px-4 py-2 rounded-md ">description</td>
+					<td class="border px-4 py-2 rounded-md ">category_name</td>
 					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">description</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">category_name</td>
+					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+				</tr>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">parent_category_id</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">parent_category_id</td>
 					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
 				</tr>
 
@@ -418,8 +942,6 @@
 
 
 
-			
-				
 			
 				
 
@@ -435,8 +957,8 @@
 				<tr class="">
 					<th class="py-2 px-4 rounded-md"></th>
 					<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
-					<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql2</th>
-					<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql1</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -446,9 +968,128 @@
 
 
 				<tr>
-					<td class="border px-4 py-2 rounded-md ">status</td>
+					<td class="border px-4 py-2 rounded-md ">order_date</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Default</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">CURRENT_TIMESTAMP</td>
+					<td class="border px-4 py-2 text-center rounded-md "></td>
+				</tr>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">order_date</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Nulo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">YES</td>
+					<td class="border px-4 py-2 text-center rounded-md ">NO</td>
+				</tr>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">order_date</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Tipo do Campo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">timestamp without time zone</td>
+					<td class="border px-4 py-2 text-center rounded-md ">date</td>
+				</tr>
+
+
+			
+
+			
+			</tbody>
+		</table>
+	</div>
+</section>
+
+
+
+			
+				
+
+
+			<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+			<div class=" ml-5 text-xl border-b border-b-slate-400">
+			<h3 class=" text-xl ">users</h3>
+		</div>
+		<div class="flex justify-center">
+		<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+			
+			<thead>
+				<tr class="">
+					<th class="py-2 px-4 rounded-md"></th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+				</tr>
+			</thead>
+			<tbody>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">is_active</td>
 					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">status</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">is_active</td>
+					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+				</tr>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">created_at</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Tipo do Campo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">timestamp without time zone</td>
+					<td class="border px-4 py-2 text-center rounded-md ">timestamp with time zone</td>
+				</tr>
+
+
+			
+
+			
+			</tbody>
+		</table>
+	</div>
+</section>
+
+
+
+			
+				
+
+
+			<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
+			<div class=" ml-5 text-xl border-b border-b-slate-400">
+			<h3 class=" text-xl ">reviews</h3>
+		</div>
+		<div class="flex justify-center">
+		<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
+			
+			<thead>
+				<tr class="">
+					<th class="py-2 px-4 rounded-md"></th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
+				</tr>
+			</thead>
+			<tbody>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">verified</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">verified</td>
 					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
 				</tr>
 
@@ -469,7 +1110,7 @@
 
 			<section class="flex flex-col border-2 rounded-lg shadow-lg p-6">
 			<div class=" ml-5 text-xl border-b border-b-slate-400">
-			<h3 class=" text-xl ">products</h3>
+			<h3 class=" text-xl ">telefones</h3>
 		</div>
 		<div class="flex justify-center">
 		<table class="min-w-full bg-white rounded-lg border-separate border-spacing-3">
@@ -478,8 +1119,8 @@
 				<tr class="">
 					<th class="py-2 px-4 rounded-md"></th>
 					<th class="py-2 px-4 bg-gray-200 rounded-md">Comparaçao</th>
-					<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql2</th>
-					<th class="py-2 px-4 bg-gray-200 rounded-md">dbcompare_mysql1</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres2</th>
+					<th class="py-2 px-4 bg-gray-200 rounded-md">db_compare_postgres1</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -489,10 +1130,10 @@
 
 
 				<tr>
-					<td class="border px-4 py-2 rounded-md ">description</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">Tipo do Campo</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">text</td>
-					<td class="border px-4 py-2 text-center rounded-md ">varchar(655)</td>
+					<td class="border px-4 py-2 rounded-md ">numero_telefone</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">numero_telefone</td>
+					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
 				</tr>
 
 
@@ -500,10 +1141,21 @@
 
 
 				<tr>
-					<td class="border px-4 py-2 rounded-md ">stock</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">Campo</td>
-					<td class="border px-4 py-2 text-center rounded-md  ">stock</td>
-					<td class="border px-4 py-2 text-center rounded-md ">Não existe</td>
+					<td class="border px-4 py-2 rounded-md ">tipo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Default</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">&#39;residencial&#39;::character varying</td>
+					<td class="border px-4 py-2 text-center rounded-md "></td>
+				</tr>
+
+
+			
+
+
+				<tr>
+					<td class="border px-4 py-2 rounded-md ">tipo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">Nulo</td>
+					<td class="border px-4 py-2 text-center rounded-md  ">YES</td>
+					<td class="border px-4 py-2 text-center rounded-md ">NO</td>
 				</tr>
 
 

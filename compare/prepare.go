@@ -2,23 +2,24 @@ package compare
 
 import (
 	"database/sql"
+	"dbcompare/config"
 	"dbcompare/databases"
 	"dbcompare/schemas"
 	"dbcompare/stats"
 	"log"
 )
 
-func PrepararDadosMysql(conn *sql.DB, banco string, tempoDecorrido *string) (schemas.DadosMap, error) {
+func PrepararDadosMysql(conn *sql.DB, dadosBanco config.ConfiguracaoDB, tempoDecorrido *string) (schemas.DadosMap, error) {
 	var contagem stats.Contagem
 	contagem.IniciarContagem()
 	mapTabelas := make(schemas.MapTabelas)
-	if err := agruparDadosTabela(mapTabelas, conn, banco); err != nil {
+	if err := agruparDadosTabela(mapTabelas, conn, dadosBanco); err != nil {
 		return schemas.DadosMap{}, err
 	}
-	if err := agruparDadosColuna(mapTabelas, conn, banco); err != nil {
+	if err := agruparDadosColuna(mapTabelas, conn, dadosBanco); err != nil {
 		return schemas.DadosMap{}, err
 	}
-	if err := agruparDadosChaves(mapTabelas, conn, banco); err != nil {
+	if err := agruparDadosChaves(mapTabelas, conn, dadosBanco); err != nil {
 		return schemas.DadosMap{}, err
 	}
 	mapDados := schemas.DadosMap{
@@ -28,8 +29,8 @@ func PrepararDadosMysql(conn *sql.DB, banco string, tempoDecorrido *string) (sch
 	return mapDados, nil
 }
 
-func agruparDadosTabela(mapTabelas schemas.MapTabelas, conn *sql.DB, banco string) error {
-	dadosTabelas, err := databases.BuscarTabelas(conn, banco)
+func agruparDadosTabela(mapTabelas schemas.MapTabelas, conn *sql.DB, dadosBanco config.ConfiguracaoDB) error {
+	dadosTabelas, err := databases.BuscarTabelas(conn, dadosBanco)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -45,8 +46,8 @@ func agruparDadosTabela(mapTabelas schemas.MapTabelas, conn *sql.DB, banco strin
 	return nil
 }
 
-func agruparDadosColuna(mapTabelas schemas.MapTabelas, conn *sql.DB, banco string) error {
-	dadosColunas, err := databases.BuscarColunas(conn, banco)
+func agruparDadosColuna(mapTabelas schemas.MapTabelas, conn *sql.DB, dadosBanco config.ConfiguracaoDB) error {
+	dadosColunas, err := databases.BuscarColunas(conn, dadosBanco)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -59,8 +60,8 @@ func agruparDadosColuna(mapTabelas schemas.MapTabelas, conn *sql.DB, banco strin
 	return nil
 }
 
-func agruparDadosChaves(mapTabelas schemas.MapTabelas, conn *sql.DB, banco string) error {
-	dadosChaves, err := databases.BuscarChaves(conn, banco)
+func agruparDadosChaves(mapTabelas schemas.MapTabelas, conn *sql.DB, dadosBanco config.ConfiguracaoDB) error {
+	dadosChaves, err := databases.BuscarChaves(conn, dadosBanco)
 	if err != nil {
 		log.Fatal(err)
 	}
