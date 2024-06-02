@@ -1,6 +1,6 @@
 # DB Compare Golang
 
-DB Compare é uma ferramenta desenvolvida em Go para comparar bancos de dados MySQL e PostgreSQL. Ele permite identificar diferenças entre dois bancos de dados e garantir a consistência entre eles.
+DB Compare é uma ferramenta desenvolvida em Go para comparar bancos de dados MySQL e PostgreSQL com um output em HTML. Ele permite identificar diferenças entre dois bancos de dados e garantir a consistência entre eles.
 
 
 ## Instalação
@@ -70,9 +70,7 @@ go build -o dbcompare .
 --connPrimaria "root:123456@tcp(127.0.0.1:3306)/dbcompare_mysql1" \
 --connSecundaria "root:123456@tcp(127.0.0.1:3306)/dbcompare_mysql2"
 ```
-#### Saída
-![enter image description here](https://github.com/LuanChagas/db_compare_golang/blob/f29fb33ff9af1cb386bd1caf51c5bb09b82f90f2/inicio.png?raw=true)
-![enter image description here](https://raw.githubusercontent.com/LuanChagas/db_compare_golang/f29fb33ff9af1cb386bd1caf51c5bb09b82f90f2/fim.png)
+
 ## Licença
 
 Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
