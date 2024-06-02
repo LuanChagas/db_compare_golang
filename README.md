@@ -70,6 +70,8 @@ go build -o dbcompare .
 --connPrimaria "root:123456@tcp(127.0.0.1:3306)/dbcompare_mysql1" \
 --connSecundaria "root:123456@tcp(127.0.0.1:3306)/dbcompare_mysql2"
 ```
+#### Saída
+O exemplo do resultado da comparação.: [Resultado.html](https://luanchagas.github.io/db_compare_golang/) 
 
 ## Licença
 
